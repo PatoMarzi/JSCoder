@@ -18,14 +18,19 @@ function menu() {
   return rta;
 }
 
+// Función para dar alta un socio
 
-function altaSocio() {
-  0
-}
+function altaSocio() {}
 
+// Función para dar de baja un socio
 
+function bajaSocio() {}
 
+function listaSocio() {}
 
+function deudaSocio() {}
+
+function modificarSocio() {}
 
 // Programa Principal
 
@@ -38,16 +43,22 @@ do {
   }
   switch (op) {
     case 1:
+      altaSocio();
       break;
     case 2:
+      listaSocio();
       break;
     case 3:
+      deudaSocio();
       break;
     case 4:
+      modificarSocio();
       break;
     case 5:
+      bajaSocio();
       break;
     case 0:
+      alert("Usted ha elegido salir");
       break;
   }
 } while (op != 0);
