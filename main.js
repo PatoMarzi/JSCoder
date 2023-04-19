@@ -43,14 +43,14 @@ function programaPrincipal() {
         let nro = parseInt(
           prompt("Ingrese el número de socio a dar de baja: ")
         );
-        pos = bajaSocio(nro);
-        while (pos < 0) {
-          alert(`El número de socio ${nro} no existe.\nIngrese nuevamente`);
-          pos = bajaSocio(
-            parseInt(prompt("Ingrese el número de socio a dar de baja: "))
-          );
+        let pos = bajaSocio(nro);
+        if (pos < 0) {
+          alert(`El número de socio ${nro} no existe.`);
         }
         socios.splice(pos, 1);
+        alert(
+          `El socio número ${pos}, ${socios[pos].nombre}, ${socios[pos].apellido} ha sido dado de baja exitosamente!`
+        );
         break;
       case 0:
         alert("Usted ha elegido salir");
@@ -77,23 +77,23 @@ function altaSocio() {
 }
 
 // Función para dar de baja un socio
-
 // Busca el nro de socio en el arreglo 'socios', devuelve la posición si lo encuentra
 // o devuelve -1 si no lo encuentra.
 
 function bajaSocio(n) {
   let minimo = 1;
+
   let maximo = socios.length;
   let medio = (minimo + maximo) / 2;
-  while (n != socios[medio] && minimo < maximo) {
-    if (socios[medio] < n) {
+  while (n != socios[medio].nroSocio && minimo < maximo) {
+    if (socios[medio].nroSocio < n) {
       minimo = medio + 1;
     } else {
       maximo = medio - 1;
     }
     medio = (minimo + maximo) / 2;
   }
-  if (socios[medio] == n) {
+  if (socios[medio].nroSocio == n) {
     return medio;
   } else {
     return -1;
@@ -130,33 +130,43 @@ function baseDeDatos() {
   // Socio Número 1
   s1 = new Socio(1, "Sergio", "Maes", "Pellegrini 552", "4329438", 2300, 12);
   socios.push(s1);
+
   // Socio Número 2
   s1 = new Socio(2, "Silvina", "Mintera", "Laprida 1232", "4623463", 15000, 4);
   socios.push(s1);
+
   // Socio Número 3
   s1 = new Socio(3, "Josefina", "Asturia", "Cordoba 32", "4422348", 544, 3);
   socios.push(s1);
+
   // Socio Número 4
   s1 = new Socio(4, "Carla", "Oliva", "Italia 1232", "4985674", 140, 3);
   socios.push(s1);
+
   // Socio Número 5
   s1 = new Socio(5, "Kevin", "Macin", "Montevideo 1232", "4544457", 7900, 3);
   socios.push(s1);
+
   // Socio Número 6
   s1 = new Socio(6, "Angeles", "Nandez", "Corrientes 1232", "4325622", 7900, 2);
   socios.push(s1);
+
   // Socio Número 7
   s1 = new Socio(7, "Pablo", "Derman", "Belgrano 1232", "4402342", 1434, 1);
   socios.push(s1);
+
   // Socio Número 8
   s1 = new Socio(8, "Samira", "Bartoly", "San Martin 5434", "4500510", 900, 11);
   socios.push(s1);
+
   // Socio Número 9
   s1 = new Socio(9, "Carolina", "Kjien", "Lagos 1883", "4321012", 20300, 5);
   socios.push(s1);
+
   // Socio Número 10
   s1 = new Socio(10, "Sebastian", "Zuro", "Guerrero 1889", "4453341", 9870, 20);
   socios.push(s1);
+
   // Socio Número 11
   s1 = new Socio(11, "Lucio", "Pedreti", "Perez 1666", "4206940", 200, 14);
   socios.push(s1);
