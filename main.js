@@ -40,20 +40,7 @@ function programaPrincipal() {
         modificarSocio();
         break;
       case 5:
-        let nro = parseInt(
-          prompt("Ingrese el número de socio a dar de baja: ")
-        );
-        let pos = bajaSocio(nro);
-        if (pos < 0) {
-          alert(`El número de socio ${nro} no existe.`);
-        }
-        socios.splice(pos, 1);
-        alert(
-          `El socio número ${pos}, ${socios[pos].nombre}, ${socios[pos].apellido} ha sido dado de baja exitosamente!`
-        );
-        break;
-      case 0:
-        alert("Usted ha elegido salir");
+        bajaSocio();
         break;
     }
   } while (op != 0);
@@ -80,23 +67,33 @@ function altaSocio() {
 // Busca el nro de socio en el arreglo 'socios', devuelve la posición si lo encuentra
 // o devuelve -1 si no lo encuentra.
 
-function bajaSocio(n) {
-  let minimo = 1;
-
+function bajaSocio() {
+  let nro = parseInt(
+    prompt(
+      `Ingrese el número de socio a dar de baja o presione cero para salir`
+    )
+  );
+  while (nro < 0 || nro > socios.length || nro == 0) {
+    nro = validarOpcion(1, socios.length, nro);
+  }
+  let minimo = 0;
   let maximo = socios.length;
-  let medio = (minimo + maximo) / 2;
-  while (n != socios[medio].nroSocio && minimo < maximo) {
-    if (socios[medio].nroSocio < n) {
+  let medio = Math.round((minimo + maximo) / 2);
+  while (nro != socios[medio].nroSocio && minimo < maximo) {
+    if (socios[medio].nroSocio < nro) {
       minimo = medio + 1;
     } else {
       maximo = medio - 1;
     }
-    medio = (minimo + maximo) / 2;
+    medio = Math.round((minimo + maximo) / 2);
   }
-  if (socios[medio].nroSocio == n) {
-    return medio;
-  } else {
-    return -1;
+  if (socios[medio].nroSocio == nro) {
+    socios.splice(medio, 1);
+    alert(
+      `El socio número ${medio + 1}, ${socios[medio].nombre}, ${
+        socios[medio].apellido
+      } ha sido dado de baja exitosamente!`
+    );
   }
 }
 
