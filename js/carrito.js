@@ -9,29 +9,33 @@ let cantidadTotalCompra = carrito.length;
 $(document).ready(function () {
   $("#cantidad-compra").text(cantidadTotalCompra);
   //evento al boton finalizar compra para que el usuario confirme su compra
-  $("#btn-finalizar").on("click", function () {
+  $("#btn-finalizar").on('click', function () {
     //uso sweet alert para que el usuario confirme su compra, cuando toca si se vacia el carrito
     Swal.fire({
-      title: "¿Seguro que queres finalizar tu compra?",
+      title: '¿Seguro que queres finalizar tu compra?',
       text: `Total a abonar: $${calcularTotalCarrito()}`,
       showCancelButton: true,
-      confirmButtonColor: "#008f39",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si",
-      cancelButtonText: "No",
+      confirmButtonColor: '#008f39',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Compra confirmada", "¡Que lo disfrutes!", "success");
+        Swal.fire(
+          'Compra confirmada',
+          '¡Que lo disfrutes!',
+          'success'
+        )
         vaciarCarrito();
       }
-    });
+    })
   });
 
   //configuracion del selector para ordenar productos
   $("#seleccion option[value='pordefecto']").attr("selected", true);
   $("#seleccion").on("change", ordenarProductos);
 
-  //llamo a las funciones que necesitan renderizarse
+  //llamo a las funciones que necesitan renderizarse 
   $("#gastoTotal").html(`Total: $ ${calcularTotalCarrito()}`);
   obtenerJSON();
   renderizarProductos();
@@ -52,12 +56,12 @@ function renderizarProductos() {
                                     </div>
                                     </div>`);
 
-    $(`#btn${producto.id}`).on("click", function () {
+    $(`#btn${producto.id}`).on('click', function () {
       agregarAlCarrito(producto);
       $(`#btn${producto.id}`).fadeOut(200).fadeIn(200);
     });
   }
-}
+};
 
 //funcion utilizando AJAX para obtener la informacion de los productos creados en el archivo json
 function obtenerJSON() {
@@ -74,11 +78,11 @@ function ordenarProductos() {
   let seleccion = $("#seleccion").val();
   if (seleccion == "menor") {
     productosJSON.sort(function (a, b) {
-      return a.precio - b.precio;
+      return a.precio - b.precio
     });
   } else if (seleccion == "mayor") {
     productosJSON.sort(function (a, b) {
-      return b.precio - a.precio;
+      return b.precio - a.precio
     });
   } else if (seleccion == "alfabetico") {
     productosJSON.sort(function (a, b) {
@@ -103,27 +107,27 @@ class ProductoCarrito {
 
 //funcion para agregar productos al carrito, modificando el modal con el detalle del carrito
 function agregarAlCarrito(productoAgregado) {
-  let encontrado = carrito.find((p) => p.id == productoAgregado.id);
+  let encontrado = carrito.find(p => p.id == productoAgregado.id);
   if (encontrado == undefined) {
     let productoEnCarrito = new ProductoCarrito(productoAgregado);
     carrito.push(productoEnCarrito);
     Swal.fire(
-      "Nuevo producto agregado al carrito",
+      'Nuevo producto agregado al carrito',
       productoAgregado.nombre,
-      "success"
+      'success'
     );
 
-    //agregamos una nueva fila a la tabla de carrito en caso de que el producto no se encontrara
-    $("#tablabody")
-      .append(`<tr id='fila${productoEnCarrito.id}' class='tabla-carrito'>
+    //agregamos una nueva fila a la tabla de carrito en caso de que el producto no se encontrara 
+    $("#tablabody").append(`<tr id='fila${productoEnCarrito.id}' class='tabla-carrito'>
                             <td> ${productoEnCarrito.nombre}</td>
                             <td id='${productoEnCarrito.id}'> ${productoEnCarrito.cantidad}</td>
                             <td> ${productoEnCarrito.precio}</td>
                             <td><button class='btn btn-light' id="btn-eliminar-${productoEnCarrito.id}">🗑️</button></td>
                             </tr>`);
+
   } else {
     //pido al carro la posicion del producto y despues incremento su cantidad
-    let posicion = carrito.findIndex((p) => p.id == productoAgregado.id);
+    let posicion = carrito.findIndex(p => p.id == productoAgregado.id);
     carrito[posicion].cantidad += 1;
     $(`#${productoAgregado.id}`).html(carrito[posicion].cantidad);
   }
@@ -145,15 +149,15 @@ function mostrarEnTabla() {
                             </tr>`);
 
     $(`#eliminar${prod.id}`).click(function () {
-      let eliminado = carrito.findIndex((p) => p.id == prod.id);
+      let eliminado = carrito.findIndex(p => p.id == prod.id);
       carrito.splice(eliminado, 1);
       console.log(eliminado);
       $(`#fila${prod.id}`).remove();
       $("#gastoTotal").html(`Total: $ ${calcularTotalCarrito()}`);
       localStorage.setItem("carrito", JSON.stringify(carrito));
-    });
+    })
   }
-}
+};
 
 //funcion para calcular el monto total del carrito y la cantidad
 function calcularTotalCarrito() {
@@ -166,7 +170,7 @@ function calcularTotalCarrito() {
   return total;
 }
 
-//funcion que resetea todos los valores una vez finalizada la compra
+//funcion que resetea todos los valores una vez finalizada la compra 
 function vaciarCarrito() {
   $("#gastoTotal").text("Total: $0");
   $("#cantidad-compra").text("0");
